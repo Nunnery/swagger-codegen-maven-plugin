@@ -16,8 +16,11 @@ public abstract class SwaggerCodegenAbstractMojo extends AbstractMojo {
     @Parameter(property = SwaggerCodegenPlugin.PREFIX + "outputDirectory", required = true, defaultValue = "${project.build.directory}/generated")
     protected File outputDirectory;
     
-    @Parameter(property = SwaggerCodegenPlugin.PREFIX + "language", required = true, defaultValue = "java")
+    @Parameter(property = SwaggerCodegenPlugin.PREFIX + "language", required = false)
     protected String language;
+
+    @Parameter(property = SwaggerCodegenPlugin.PREFIX + "client", required = false)
+    protected boolean client = true;
 
     @Parameter(property = SwaggerCodegenPlugin.PREFIX + "skip", required = false)
     protected boolean skip = false;
