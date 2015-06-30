@@ -28,12 +28,11 @@ public class SwaggerCodegenClientMojo extends SwaggerCodegenAbstractMojo {
         if (outputDirectory == null) {
             throw new MojoExecutionException("outputDirectory must be defined!");
         }
-        if (language == null) {
-            throw new MojoExecutionException("language must be defined!");
-        }
+
+        String lang = getLanguage();
         Swagger swagger = new SwaggerParser().read(inputSpec);
 
-        CodegenConfig config = getLanguageConfig(language);
+        CodegenConfig config = getLanguageConfig(lang);
         config.setOutputDir(outputDirectory.getAbsolutePath());
 
         ClientOptInput input = new ClientOptInput().opts(new ClientOpts()).swagger(swagger);
@@ -57,5 +56,15 @@ public class SwaggerCodegenClientMojo extends SwaggerCodegenAbstractMojo {
         } catch (Exception e) {
             throw new RuntimeException("Can't load config class with name ".concat(name), e);
         }
+    }
+
+    private String getLanguage() {
+        if (language == null) {
+            if (client) {
+                return "java";
+            }
+            return "jaxrs";
+        }
+        return language;
     }
 }
